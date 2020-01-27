@@ -47,7 +47,6 @@ function ipaCheck {
   fi
   }
 
-
 function getOgIpa {
     printf "${GREEN}Get the og app name${NC}\n"
     for apps in "$fileDir"/*                                             ##for every file in the folder
@@ -102,7 +101,7 @@ function getOgIpa {
   }
 
   function renameAndMove {
-    mv $fileDir/$ogIpa $scriptDir/$newFileName
+    mv $fileDir/"$ogIpa" $scriptDir/$newFileName
   }
 
   function remove {
