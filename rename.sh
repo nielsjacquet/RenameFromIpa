@@ -102,6 +102,7 @@ function getOgIpa {
 
   function renameAndMove {
     mv $fileDir/"$ogIpa" $scriptDir/$newFileName
+    open $scriptDir
   }
 
   function remove {
