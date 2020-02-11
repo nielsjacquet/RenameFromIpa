@@ -26,6 +26,22 @@ fileDir="$scriptDir/toRename"
 tempFolder="$scriptDir/_TEMP"
 payloadFolder="$tempFolder/Payload"
 
+
+helpFunction()
+{
+  echo ""
+  echo "Usage: $0 -i ipaPath"
+  echo -e "\t-i ipaPath -- REQUIRED "
+  exitProcedure # Exit script after printing help
+}
+
+
+copyToRenameFolder()
+{
+  echo Copy the ipa to the to be exploded folder
+  cp "$ipaArg" "$fileDir"
+}
+
 echo serverPath $serverPath
 echo fileDir $fileDir
 function ipaCheck {
@@ -61,6 +77,7 @@ function getOgIpa {
       remove
     done
   }
+
 
   function unZip {
     printf "${GREEN}Unzipping the ipa${NC}\n"
@@ -109,7 +126,31 @@ function getOgIpa {
     rm -rf $tempFolder
   }
 
+  while getopts "i:?:h:" opt
+  do
+     case "$opt" in
+        i ) ipaArg="$OPTARG" ;;               # Ipa path argument
+        ? ) helpFunction ;;                   # Print helpFunction in case parameter is non-existent
+        h ) helpFunction ;;                   # Print helpFunction in case parameter is non-existent
+     esac
+  done
+
+  if [[ -z $ipaArg ]]
+    then
+      echo ipaArg is empty: $ipaArg
+      ipaCheck
+      getOgIpa
+  fi
+
+  if [[ ! -z $ipaArg  ]]
+    then
+     echo ipaArg is not empty: $ipaArg
+     copyToRenameFolder
+     ipaCheck
+     getOgIpa
+  fi
 
 
-ipaCheck
-getOgIpa
+
+# ipaCheck
+# getOgIpa
