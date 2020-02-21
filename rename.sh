@@ -20,7 +20,8 @@ function DBR {
 }
 
 ##Paths
-scriptDir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"  ##Homedir
+#scriptDir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"  ##Homedir
+scriptDir="/Users/UCB/Documents/UCB/Scriptz/RenameFromIpa"
 serverPath="/Volumes/Macintosh HD-1/Users/Shared/myUCB4me_AppRepo"
 fileDir="$scriptDir/toRename"
 tempFolder="$scriptDir/_TEMP"
@@ -86,12 +87,14 @@ function getOgIpa {
   }
 
   function extractVersion {
-    echo "$payloadFolder"
+    printf "${GREEN}Extracting the app version Pt1${NC}\n"
+    echo payloadFolder: "$payloadFolder"
     cd "$payloadFolder"
     payloadApp=$(ls | grep '.app')                                                  ##extract the app version for naming sceme
+    echo payloadApp: $payloadApp
     infoPlist="$payloadFolder/$payloadApp/info.plist"
-    plutil -convert xml1 $infoPlist
-    printf "${GREEN}Extracting the app version${NC}\n"
+    plutil -convert xml1 "$infoPlist"
+    printf "${GREEN}Extracting the app version Pt2${NC}\n"
     buildVersionRude=$(cat "$infoPlist" | grep -A1 "CFBundleVersion")
     echo buildVersionRude $buildVersionRude
     buildVersionMinEnd=$(echo ${buildVersionRude%?????????})
@@ -103,7 +106,7 @@ function getOgIpa {
 
   function extractBundleID {                                                      ##extract the app bundleID for naming sceme
     printf "${GREEN}Extracting the bundle id${NC}\n"
-    bundleIDRude=$(cat $infoPlist | grep -A1 "CFBundleIdentifier")
+    bundleIDRude=$(cat "$infoPlist" | grep -A1 "CFBundleIdentifier")
     echo bundleIDRude: $bundleIDRude
     bundleIDMinEnd=$(echo ${bundleIDRude%?????????})
     echo bundleIDMinEnd: $bundleIDMinEnd
