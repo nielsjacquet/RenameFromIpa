@@ -33,7 +33,7 @@ helpFunction()
   echo ""
   echo "Usage: $0 -i ipaPath"
   echo -e "\t-i ipaPath -- REQUIRED "
-  exitProcedure # Exit script after printing help
+  exit -1 # Exit script after printing help
 }
 
 
@@ -148,8 +148,11 @@ function getOgIpa {
   if [[ ! -z $ipaArg  ]]
     then
      echo ipaArg is not empty: $ipaArg
+     read -p
      copyToRenameFolder
+     read -p
      ipaCheck
+     read -p
      getOgIpa
   fi
 
